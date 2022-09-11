@@ -1,6 +1,19 @@
-#include <iostream>
+#include "Game.h"
 
-int main(int argc, char *argv[])
+int main()
 {
-	std::cout << "Hello world!" << std::endl;
+	Game game;
+	auto result = game.init(
+		"Chapter 1",
+		SDL_WINDOWPOS_CENTERED,
+		SDL_WINDOWPOS_CENTERED,
+		640,
+		580
+	);
+
+	if (result)
+		game.runloop();
+
+	game.clean();
+	return 0;
 }

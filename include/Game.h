@@ -9,8 +9,9 @@ public:
     Game();
     ~Game();
 
-    void init();
+    bool init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen = false);
 
+    void runloop();
     void render();
     void update();
     void handleEvents();
@@ -21,6 +22,10 @@ public:
 private:
     SDL_Window *window_;
     SDL_Renderer *renderer_;
+
+    SDL_Texture *texture_;
+    SDL_Rect sourceRectangle_;
+    SDL_Rect destinationRectangle_;
 
     bool running_;
 };
