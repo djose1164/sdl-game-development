@@ -1,8 +1,6 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "TextureManager.h"
-
 #include <SDL2/SDL.h>
 
 class Game
@@ -24,8 +22,6 @@ public:
 private:
     SDL_Window *window_;
     SDL_Renderer *renderer_;
-
-    TextureManager textureManager_;
 
     int currentFrame_;
 

@@ -2,6 +2,24 @@
 
 #include <SDL2/SDL_image.h>
 
+TextureManager *TextureManager::instance_{nullptr};
+
+TextureManager::TextureManager()
+{
+}
+
+TextureManager::~TextureManager()
+{
+}
+
+TextureManager *TextureManager::instance()
+{
+    if (!instance_)
+        instance_ = new TextureManager;
+
+    return instance_;    
+}
+
 bool TextureManager::load(std::string filename, std::string id, SDL_Renderer *renderer)
 {
     auto surface{IMG_Load(filename.c_str())};
