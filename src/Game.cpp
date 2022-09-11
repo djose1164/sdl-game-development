@@ -1,5 +1,7 @@
 #include "Game.h"
 
+#include <SDL2/SDL_image.h>
+
 Game::Game() {}
 
 Game::~Game() {}
@@ -30,22 +32,17 @@ bool Game::init(const char *title, int xpos, int ypos, int width, int height, bo
         return false;
     }
 
-    SDL_SetRenderDrawColor(renderer_, 0, 0, 0, 255);
+    if (!IMG_Init(IMG_INIT_PNG))
+    {
+        SDL_Log("Failed to initialize SDL_image: %s", SDL_GetError());
+        return false;
+    }
+
+    SDL_SetRenderDrawColor(renderer_, 255, 0, 0, 255);
     running_ = true;
 
-    auto surface{SDL_LoadBMP("assets/animate.bmp")};
-    texture_ = SDL_CreateTextureFromSurface(renderer_, surface);
-    SDL_FreeSurface(surface);
-
-    //SDL_QueryTexture(texture_, nullptr, nullptr, &sourceRectangle_.w, &sourceRectangle_.h);
-
-    sourceRectangle_.w = 128;
-    sourceRectangle_.h = 82;
-
-    destinationRectangle_.y = sourceRectangle_.y = 0;
-    destinationRectangle_.x = sourceRectangle_.x = 0;
-    destinationRectangle_.w = sourceRectangle_.w;
-    destinationRectangle_.h = sourceRectangle_.h;
+    textureManager_.load("assets/animate-alpha.png", "animate", renderer_);
+    currentFrame_ = 0;
 
     return true;
 }
@@ -64,22 +61,15 @@ void Game::render()
 {
     SDL_RenderClear(renderer_);
 
-    SDL_RenderCopyEx(
-        renderer_,
-        texture_,
-        &sourceRectangle_,
-        &destinationRectangle_,
-        .0,
-        nullptr,
-        SDL_FLIP_HORIZONTAL
-    );
+    textureManager_.draw("animate", 0, 0, 128, 86, renderer_);
+    textureManager_.drawFrame("animate", 100, 100, 128, 82, 1, currentFrame_, renderer_);
 
     SDL_RenderPresent(renderer_);
 }
 
 void Game::update()
 {
-    sourceRectangle_.x = 128 * static_cast<int>((SDL_GetTicks64() / 100) % 6);
+    currentFrame_ = static_cast<int>((SDL_GetTicks64() / 100) % 6);
 }
 
 void Game::handleEvents()
