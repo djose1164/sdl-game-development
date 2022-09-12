@@ -1,14 +1,14 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "Player.h"
-
 #include <SDL2/SDL.h>
+#include <vector>
+
+class GameObject;
 
 class Game
 {
 public:
-    Game();
     ~Game();
 
     bool init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen = false);
@@ -21,14 +21,21 @@ public:
 
     bool running() const;
 
+    static Game *instance();
+
+    SDL_Renderer *renderer() const;
+
 private:
+    Game();
+
+    static Game *instance_;
     SDL_Window *window_;
     SDL_Renderer *renderer_;
 
     bool running_;
 
-    GameObject go_;
-    Player player_;
+    std::vector<GameObject *> gameObjects_;
 };
+typedef Game TheGame;
 
 #endif //GAME_H

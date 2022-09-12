@@ -1,11 +1,25 @@
 #include "Game.h"
 #include "TextureManager.h"
+#include "Player.h"
+#include "Enemy.h"
+#include "LoaderParams.h"
 
 #include <SDL2/SDL_image.h>
 
-Game::Game() {}
+Game *Game::instance_{nullptr};
+
+Game::Game()
+{}
 
 Game::~Game() {}
+
+Game *Game::instance()
+{
+    if (!instance_)
+        instance_ = new Game;
+
+    return instance_;
+}
 
 bool Game::init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen)
 {
@@ -44,8 +58,8 @@ bool Game::init(const char *title, int xpos, int ypos, int width, int height, bo
 
     TextureManager::instance()->load("assets/animate-alpha.png", "animate", renderer_);
 
-    go_.load(100, 100, 128, 82, "animate");
-    player_.load(300, 300, 128, 82, "animate");
+    gameObjects_.push_back(new Player(new LoaderParams(300, 300, 128, 82, "animate")));
+    gameObjects_.push_back(new Enemy(new LoaderParams(0, 0, 128, 82, "animate")));
 
     return true;
 }
@@ -58,7 +72,7 @@ void Game::runloop()
         update();
         render();
 
-        SDL_Delay(100);
+        SDL_Delay(10);
     }
 }
 
@@ -66,16 +80,16 @@ void Game::render()
 {
     SDL_RenderClear(renderer_);
 
-    go_.draw(renderer_);
-    player_.draw(renderer_);
+    for (const auto object : gameObjects_)
+        object->draw();
 
     SDL_RenderPresent(renderer_);
 }
 
 void Game::update()
 {
-    go_.update();
-    player_.update();
+    for (const auto object : gameObjects_)
+        object->update();
 }
 
 void Game::handleEvents()
@@ -103,4 +117,9 @@ void Game::clean()
 bool Game::running() const
 {
     return running_;
+}
+
+SDL_Renderer *Game::renderer() const
+{
+    return renderer_;
 }

@@ -2,8 +2,7 @@
 
 int main()
 {
-	Game game;
-	auto result = game.init(
+	auto result = TheGame::instance()->init(
 		"Chapter 1",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
@@ -12,8 +11,8 @@ int main()
 	);
 
 	if (result)
-		game.runloop();
+		TheGame::instance()->runloop();
 
-	game.clean();
+	TheGame::instance()->clean();
 	return 0;
 }

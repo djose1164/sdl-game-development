@@ -1,17 +1,20 @@
 #include "Player.h"
+#include "LoaderParams.h"
 
-void Player::load(int x, int y, int width, int height, std::string id)
+Player::Player(const LoaderParams *params)
+    : SDLGameObject{params}
 {
-    GameObject::load(x, y, width, height, id);
 }
 
-void Player::draw(SDL_Renderer *renderer)
+void Player::draw()
 {
-    GameObject::draw(renderer);
+    SDLGameObject::draw();
 }
 
 void Player::update()
 {
-    currentFrame_ = static_cast<int>((SDL_GetTicks64() / 100) % 6);
     --x_;
+    currentFrame_ = static_cast<int>((SDL_GetTicks64() / 100) % 6);
 }
+
+void Player::clean() {}
