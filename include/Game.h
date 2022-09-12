@@ -1,6 +1,8 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include "Player.h"
+
 #include <SDL2/SDL.h>
 
 class Game
@@ -23,9 +25,10 @@ private:
     SDL_Window *window_;
     SDL_Renderer *renderer_;
 
-    int currentFrame_;
-
     bool running_;
+
+    GameObject go_;
+    Player player_;
 };
 
 #endif //GAME_H

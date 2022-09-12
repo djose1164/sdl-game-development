@@ -42,8 +42,10 @@ bool Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     SDL_SetRenderDrawColor(renderer_, 255, 0, 0, 255);
     running_ = true;
 
-    TheTextureManager::instance()->load("assets/animate-alpha.png", "animate", renderer_);
-    currentFrame_ = 0;
+    TextureManager::instance()->load("assets/animate-alpha.png", "animate", renderer_);
+
+    go_.load(100, 100, 128, 82, "animate");
+    player_.load(300, 300, 128, 82, "animate");
 
     return true;
 }
@@ -55,6 +57,8 @@ void Game::runloop()
         handleEvents();
         update();
         render();
+
+        SDL_Delay(100);
     }
 }
 
@@ -62,15 +66,16 @@ void Game::render()
 {
     SDL_RenderClear(renderer_);
 
-    TheTextureManager::instance()->draw("animate", 0, 0, 128, 86, renderer_);
-    TheTextureManager::instance()->drawFrame("animate", 100, 100, 128, 82, 1, currentFrame_, renderer_);
+    go_.draw(renderer_);
+    player_.draw(renderer_);
 
     SDL_RenderPresent(renderer_);
 }
 
 void Game::update()
 {
-    currentFrame_ = static_cast<int>((SDL_GetTicks64() / 100) % 6);
+    go_.update();
+    player_.update();
 }
 
 void Game::handleEvents()

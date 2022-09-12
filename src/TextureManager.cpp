@@ -17,7 +17,7 @@ TextureManager *TextureManager::instance()
     if (!instance_)
         instance_ = new TextureManager;
 
-    return instance_;    
+    return instance_;
 }
 
 bool TextureManager::load(std::string filename, std::string id, SDL_Renderer *renderer)
@@ -44,26 +44,25 @@ bool TextureManager::load(std::string filename, std::string id, SDL_Renderer *re
 
 void TextureManager::draw(std::string id, int x, int y, int width, int height, SDL_Renderer *renderer, SDL_RendererFlip flip)
 {
-    SDL_Rect srcRect{
+    SDL_Log("TextureManager::draw");
+    SDL_Rect srcRec{
         .x = 0,
         .y = 0,
         .w = width,
-        .h = height
-    };
+        .h = height};
 
-    auto dstRec{srcRect};
+    auto dstRec{srcRec};
     dstRec.x = x;
     dstRec.y = y;
 
     SDL_RenderCopyEx(
         renderer,
         textureMap[id],
-        &srcRect,
+        &srcRec,
         &dstRec,
         .0,
         nullptr,
-        flip
-    );
+        flip);
 }
 
 void TextureManager::drawFrame(std::string id, int x, int y, int width, int height, int currentRow, int currentFrame, SDL_Renderer *renderer, SDL_RendererFlip flip)
@@ -85,6 +84,9 @@ void TextureManager::drawFrame(std::string id, int x, int y, int width, int heig
         &dstRec,
         .0,
         nullptr,
-        flip
-    );
+        flip);
+    SDL_Log("srcRec.x: %d\t"
+            "dstRec.x: %d\t"
+            "dst.Ret.w: %d",
+            srcRec.x, dstRec.x, dstRec.w);
 }
