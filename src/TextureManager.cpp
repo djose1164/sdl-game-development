@@ -84,9 +84,6 @@ void TextureManager::drawFrame(std::string id, int x, int y, int width, int heig
         &dstRec,
         .0,
         nullptr,
-        flip);
-    SDL_Log("srcRec.x: %d\t"
-            "dstRec.x: %d\t"
-            "dst.Ret.w: %d",
-            srcRec.x, dstRec.x, dstRec.w);
+        flip
+    );
 }
