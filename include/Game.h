@@ -6,36 +6,37 @@
 
 class GameObject;
 
-class Game
-{
+class Game {
 public:
-    ~Game();
+  ~Game();
 
-    bool init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen = false);
+  bool init(const char *title, int xpos, int ypos, int width, int height,
+            bool fullscreen = false);
 
-    void runloop();
-    void render();
-    void update();
-    void handleEvents();
-    void clean();
+  void runloop();
+  void render();
+  void update();
+  void handleEvents();
+  void clean();
+  void quit();
 
-    bool running() const;
+  bool running() const;
 
-    static Game *instance();
+  static Game *instance();
 
-    SDL_Renderer *renderer() const;
+  SDL_Renderer *renderer() const;
 
 private:
-    Game();
+  Game();
 
-    static Game *instance_;
-    SDL_Window *window_;
-    SDL_Renderer *renderer_;
+  static Game *instance_;
+  SDL_Window *window_;
+  SDL_Renderer *renderer_;
 
-    bool running_;
+  bool running_;
 
-    std::vector<GameObject *> gameObjects_;
+  std::vector<GameObject *> gameObjects_;
 };
 typedef Game TheGame;
 
-#endif //GAME_H
+#endif // GAME_H

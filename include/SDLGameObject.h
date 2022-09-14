@@ -2,6 +2,7 @@
 #define SDL_GAME_OBJECT_H
 
 #include "GameObject.h"
+#include "Vector2D.h"
 
 class SDLGameObject : public GameObject
 {
@@ -13,14 +14,15 @@ public:
     virtual void clean() override;
 
 protected:
-    int x_;
-    int y_;
-
     int width_;
     int height_;
 
     int currentFrame_;
     int currentRow_;
+
+    Vector2D position_;
+    Vector2D velocity_;
+    Vector2D acceleration_;
 
     std::string textureId_;
 };

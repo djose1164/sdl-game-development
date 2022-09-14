@@ -3,14 +3,16 @@
 
 #include "SDLGameObject.h"
 
-class Player : public SDLGameObject
-{
+class Player : public SDLGameObject {
 public:
-    Player(const LoaderParams *params);
+  Player(const LoaderParams *params);
 
-    virtual void draw() override;
-    virtual void update() override;
-    virtual void clean() override;
+  virtual void draw() override;
+  virtual void update() override;
+  virtual void clean() override;
+
+private:
+  void handleInput();
 };
 
 #endif // PLAYER_H

@@ -3,8 +3,12 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "LoaderParams.h"
-
+#include "InputHandler.h"
 #include <SDL2/SDL_image.h>
+
+constexpr unsigned FPS{60};
+constexpr int DELAY_TIME{static_cast<int>(1000.f/FPS)};
+Uint64 frameStart, frameTime;
 
 Game *Game::instance_{nullptr};
 
@@ -23,7 +27,7 @@ Game *Game::instance()
 
 bool Game::init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen)
 {
-    if (SDL_Init(SDL_INIT_VIDEO) != 0)
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) != 0)
     {
         SDL_Log("Failed to initialize SDL: %s", SDL_GetError());
         return false;
@@ -61,6 +65,8 @@ bool Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     gameObjects_.push_back(new Player(new LoaderParams(300, 300, 128, 82, "animate")));
     gameObjects_.push_back(new Enemy(new LoaderParams(0, 0, 128, 82, "animate")));
 
+    TheInputHandler::instance()->initializeJoysticks();
+
     return true;
 }
 
@@ -68,11 +74,15 @@ void Game::runloop()
 {
     while (running())
     {
+        frameStart = SDL_GetTicks64();
+
         handleEvents();
         update();
         render();
 
-        SDL_Delay(10);
+        frameTime = SDL_GetTicks64() - frameStart;
+        if (frameTime < DELAY_TIME)
+            SDL_Delay(static_cast<int>(DELAY_TIME - frameTime));
     }
 }
 
@@ -94,24 +104,24 @@ void Game::update()
 
 void Game::handleEvents()
 {
-    SDL_Event event;
-    if (SDL_PollEvent(&event))
-    {
-        switch (event.type)
-        {
-        case SDL_QUIT:
-            running_ = false;
-            break;
-        }
-    }
+    TheInputHandler::instance()->update();
 }
 
 void Game::clean()
 {
     SDL_Log("Cleaning game...");
+    TheInputHandler::instance()->clean();
+
     SDL_DestroyRenderer(renderer_);
     SDL_DestroyWindow(window_);
+
+    IMG_Quit();
     SDL_Quit();
+}
+
+void Game::quit()
+{
+    running_ = false;
 }
 
 bool Game::running() const
