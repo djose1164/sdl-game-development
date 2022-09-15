@@ -4,7 +4,7 @@
 #include "Game.h"
 
 SDLGameObject::SDLGameObject(const LoaderParams *params)
-    : GameObject{params}
+    : GameObject{}
     , position_{static_cast<float>(params->x()), static_cast<float>(params->y())}
     , velocity_{.0f, .0f}
     , acceleration_{.0f, .0f}

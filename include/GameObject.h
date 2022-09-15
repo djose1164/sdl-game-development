@@ -4,8 +4,6 @@
 #include <SDL2/SDL.h>
 #include <string>
 
-class LoaderParams;
-
 class GameObject
 {
 public:
@@ -14,7 +12,7 @@ public:
     virtual void clean() = 0;
 
 protected:
-    GameObject(const LoaderParams *params);
+    GameObject();
     virtual ~GameObject();
 };
 

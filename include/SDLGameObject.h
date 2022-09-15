@@ -4,6 +4,8 @@
 #include "GameObject.h"
 #include "Vector2D.h"
 
+class LoaderParams;
+
 class SDLGameObject : public GameObject
 {
 public:

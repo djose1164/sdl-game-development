@@ -10,7 +10,7 @@ InputHandler::InputHandler()
     , joystickDeadZone_{10'000}
     , mousePosition_{new Vector2D(0, 0)}
 {
-    for (auto i{0}; i < NUM_OF_BUTTON_MOUSE; ++i)
+    for (unsigned i{0}; i < NUM_OF_BUTTON_MOUSE; ++i)
         mouseButtonStates_.push_back(false);
 }
 
