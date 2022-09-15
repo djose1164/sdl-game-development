@@ -38,5 +38,15 @@ void Player::handleInput()
             velocity_.x(1 * rightXValue);
         if (rightYValue > 0 || rightYValue < 0)
             velocity_.y(1 * rightYValue);
+        
+        auto xBtnPressed{TheInputHandler::instance()->buttonState(0, 3)};
+        if (xBtnPressed)
+            velocity_.x(1);
+        
+        auto leftBtnPressed{TheInputHandler::instance()->mouseButtonState(
+            static_cast<int>(TheInputHandler::MouseButtons::LEFT))
+        };
+        if (leftBtnPressed)
+            velocity_.x(1);
     }
 }

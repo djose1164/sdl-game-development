@@ -3,47 +3,56 @@
 #include "Vector2D.h"
 
 InputHandler *InputHandler::instance_{nullptr};
+constexpr unsigned NUM_OF_BUTTON_MOUSE{3};
 
 InputHandler::InputHandler()
-	: joysticksInitialized_{false}
+    : joysticksInitialized_{false}
     , joystickDeadZone_{10'000}
-{}
+{
+    for (auto i{0}; i < NUM_OF_BUTTON_MOUSE; ++i)
+        mouseButtonStates_.push_back(false);
+}
 
 InputHandler::~InputHandler() {}
 
 InputHandler *InputHandler::instance()
 {
-	if (!instance_)
-		instance_ = new InputHandler;
-	return instance_;
+    if (!instance_)
+        instance_ = new InputHandler;
+    return instance_;
 }
 
 void InputHandler::initializeJoysticks()
 {
-	if (!SDL_WasInit(SDL_INIT_JOYSTICK))
-		SDL_InitSubSystem(SDL_INIT_JOYSTICK);
+    if (!SDL_WasInit(SDL_INIT_JOYSTICK))
+        SDL_InitSubSystem(SDL_INIT_JOYSTICK);
 
-	if (SDL_NumJoysticks() > 0)
-	{
-		for (decltype(SDL_NumJoysticks()) i{0}; i < SDL_NumJoysticks(); ++i)
-		{
-			auto joy{SDL_JoystickOpen(i)};
-			if (!joy)
-			{
-				SDL_Log("Couldn't open joystick: %s", SDL_GetError());
-				continue;
-			}
+    if (SDL_NumJoysticks() > 0)
+    {
+        for (decltype(SDL_NumJoysticks()) i{0}; i < SDL_NumJoysticks(); ++i)
+        {
+            auto joy{SDL_JoystickOpen(i)};
+            if (!joy)
+            {
+                SDL_Log("Couldn't open joystick: %s", SDL_GetError());
+                continue;
+            }
 
             joysticks_.emplace_back(joy);
             joystickValues_.emplace_back(std::make_pair(new Vector2D(0.f, 0.f), new Vector2D(0.f, 0.f)));
-		}
 
-		SDL_JoystickEventState(SDL_ENABLE);
-		joysticksInitialized_ = true;
-		SDL_Log("Initialized %ld joystick(s)", joysticks_.size());
-	}
-	else
-		joysticksInitialized_ = false;
+            std::vector<bool> tempButtons;
+            for (auto i{0}; i < SDL_JoystickNumButtons(joy); ++i)
+                tempButtons.push_back(false);
+            buttonStates_.emplace_back(tempButtons);
+        }
+
+        SDL_JoystickEventState(SDL_ENABLE);
+        joysticksInitialized_ = true;
+        SDL_Log("Initialized %ld joystick(s)", joysticks_.size());
+    }
+    else
+        joysticksInitialized_ = false;
 }
 
 bool InputHandler::joysticksInitialized() const
@@ -53,26 +62,30 @@ bool InputHandler::joysticksInitialized() const
 
 void InputHandler::clean()
 {
-	if (!joysticksInitialized_)
-		return;
-	for (decltype(SDL_NumJoysticks()) i = 0; i < SDL_NumJoysticks(); ++i)
-		SDL_JoystickClose(joysticks_[i]);
+    if (!joysticksInitialized_)
+        return;
+    for (decltype(SDL_NumJoysticks()) i = 0; i < SDL_NumJoysticks(); ++i)
+        SDL_JoystickClose(joysticks_[i]);
 }
 
 void InputHandler::update()
 {
-	SDL_Event event;
-	while (SDL_PollEvent(&event))
-	{
-		if (event.type == SDL_QUIT)
-			TheGame::instance()->quit();
+    SDL_Event event;
+    while (SDL_PollEvent(&event))
+    {
+        auto whichOne{event.jaxis.which};
+        auto axis{event.jaxis.axis};
+        auto value{event.jaxis.value};
+        auto button{event.jbutton.button};
+        auto mouseButton{event.button.button};
 
-        if (event.type == SDL_JOYAXISMOTION)
+        switch (event.type)
         {
-            auto whichOne{event.jaxis.which};
-            auto axis{event.jaxis.axis};
-            auto value{event.jaxis.value};
+        case SDL_QUIT:
+            TheGame::instance()->quit();
+            break;
 
+        case SDL_JOYAXISMOTION:
             // Left stick move left or right.
             if (axis == 0)
             {
@@ -81,7 +94,7 @@ void InputHandler::update()
                 else if (value < -joystickDeadZone_)
                     joystickValues_[whichOne].first->x(-1);
                 else
-                   joystickValues_[whichOne].first->x(0);
+                    joystickValues_[whichOne].first->x(0);
             }
             // Left stick move up or down. y-axis
             if (axis == 1)
@@ -113,8 +126,45 @@ void InputHandler::update()
                 else
                     joystickValues_[whichOne].second->y(0);
             }
+            break;
+
+        case SDL_JOYBUTTONUP:
+            buttonStates_[whichOne][button] = false;
+            break;
+
+        case SDL_JOYBUTTONDOWN:
+            buttonStates_[whichOne][button] = true;
+            break;
+
+        case SDL_MOUSEBUTTONDOWN:
+            switch (mouseButton)
+            {
+            case SDL_BUTTON_LEFT:
+                mouseButtonStates_[static_cast<int>(MouseButtons::LEFT)] = true;
+                break;
+            case SDL_BUTTON_MIDDLE:
+                mouseButtonStates_[static_cast<int>(MouseButtons::MIDDLE)] = true;
+                break;
+            case SDL_BUTTON_RIGHT:
+                mouseButtonStates_[static_cast<int>(MouseButtons::RIGHT)] = true;
+            }
+            break;
+        
+        case SDL_MOUSEBUTTONUP:
+            switch (mouseButton)
+            {
+            case SDL_BUTTON_LEFT:
+                mouseButtonStates_[static_cast<int>(MouseButtons::LEFT)] = false;
+                break;
+            case SDL_BUTTON_MIDDLE:
+                mouseButtonStates_[static_cast<int>(MouseButtons::MIDDLE)] = false;
+                break;
+            case SDL_BUTTON_RIGHT:
+                mouseButtonStates_[static_cast<int>(MouseButtons::RIGHT)] = false;
+            }
+            break;
         }
-	}
+    }
 }
 
 int InputHandler::xvalue(int joy, int stick) const
@@ -141,3 +191,12 @@ int InputHandler::yvalue(int joy, int stick) const
     return 0;
 }
 
+bool InputHandler::buttonState(int joy, int buttonNumber) const
+{
+    return buttonStates_[joy][buttonNumber];
+}
+
+bool InputHandler::mouseButtonState(int buttonNumer) const
+{
+    return mouseButtonStates_[buttonNumer];
+}

@@ -9,6 +9,14 @@ class Vector2D;
 class InputHandler
 {
 public:
+    enum class MouseButtons
+    {
+        LEFT,
+        MIDDLE,
+        RIGHT
+    };
+
+public:
     static InputHandler *instance();
 
     void update();
@@ -16,22 +24,29 @@ public:
 
     void initializeJoysticks();
     bool joysticksInitialized() const;
-    
+
     int xvalue(int joy, int stick) const;
     int yvalue(int joy, int stick) const;
+
+    bool buttonState(int joy, int buttonNumber) const;
+
+    bool mouseButtonState(int buttonNumer) const;
+
 private:
     InputHandler();
     ~InputHandler();
 
     static InputHandler *instance_;
-    
+
     std::vector<SDL_Joystick *> joysticks_;
     std::vector<std::pair<Vector2D *, Vector2D *>> joystickValues_;
+    std::vector<std::vector<bool>> buttonStates_;
+    std::vector<bool> mouseButtonStates_;
 
     bool joysticksInitialized_;
 
-    const int joystickDeadZone_; 
+    const int joystickDeadZone_;
 };
 typedef InputHandler TheInputHandler;
 
-#endif //INPUT_HANDLER_H
+#endif // INPUT_HANDLER_H
