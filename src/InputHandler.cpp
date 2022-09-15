@@ -8,12 +8,17 @@ constexpr unsigned NUM_OF_BUTTON_MOUSE{3};
 InputHandler::InputHandler()
     : joysticksInitialized_{false}
     , joystickDeadZone_{10'000}
+    , mousePosition_{new Vector2D(0, 0)}
 {
     for (auto i{0}; i < NUM_OF_BUTTON_MOUSE; ++i)
         mouseButtonStates_.push_back(false);
 }
 
-InputHandler::~InputHandler() {}
+InputHandler::~InputHandler()
+{
+    if (mousePosition_)
+        delete mousePosition_;
+}
 
 InputHandler *InputHandler::instance()
 {
@@ -73,6 +78,8 @@ void InputHandler::update()
     SDL_Event event;
     while (SDL_PollEvent(&event))
     {
+        keyStates_ = const_cast<Uint8 *>(SDL_GetKeyboardState(nullptr));
+
         auto whichOne{event.jaxis.which};
         auto axis{event.jaxis.axis};
         auto value{event.jaxis.value};
@@ -163,7 +170,11 @@ void InputHandler::update()
                 mouseButtonStates_[static_cast<int>(MouseButtons::RIGHT)] = false;
             }
             break;
-        }
+
+        case SDL_MOUSEMOTION:
+            mousePosition_->x(event.motion.x);
+            mousePosition_->y(event.motion.y); 
+        } // switch (event.type)
     }
 }
 
@@ -199,4 +210,24 @@ bool InputHandler::buttonState(int joy, int buttonNumber) const
 bool InputHandler::mouseButtonState(int buttonNumer) const
 {
     return mouseButtonStates_[buttonNumer];
+}
+
+Vector2D *InputHandler::mousePosition()
+{
+    return mousePosition_;
+}
+
+const Vector2D *InputHandler::mousePosition() const
+{
+    return mousePosition_;
+}
+
+bool InputHandler::isKeyDown(SDL_Scancode key)
+{
+    if (!keyStates_)
+        return false;
+    if (keyStates_[key])
+        return true;
+        
+    return false;
 }

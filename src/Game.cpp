@@ -4,6 +4,10 @@
 #include "Enemy.h"
 #include "LoaderParams.h"
 #include "InputHandler.h"
+#include "GameStateMachine.h"
+#include "MenuState.h"
+#include "PlayState.h"
+
 #include <SDL2/SDL_image.h>
 
 constexpr unsigned FPS{60};
@@ -15,7 +19,11 @@ Game *Game::instance_{nullptr};
 Game::Game()
 {}
 
-Game::~Game() {}
+Game::~Game()
+{
+    if (gameStateMachine_)
+        delete gameStateMachine_;
+}
 
 Game *Game::instance()
 {
@@ -27,6 +35,7 @@ Game *Game::instance()
 
 bool Game::init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen)
 {
+    SDL_Log("Initializing game...");
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) != 0)
     {
         SDL_Log("Failed to initialize SDL: %s", SDL_GetError());
@@ -57,7 +66,7 @@ bool Game::init(const char *title, int xpos, int ypos, int width, int height, bo
         return false;
     }
 
-    SDL_SetRenderDrawColor(renderer_, 255, 0, 0, 255);
+    SDL_SetRenderDrawColor(renderer_, 0, 0, 0, 255);
     running_ = true;
 
     TextureManager::instance()->load("assets/animate-alpha.png", "animate", renderer_);
@@ -66,6 +75,9 @@ bool Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     gameObjects_.push_back(new Enemy(new LoaderParams(0, 0, 128, 82, "animate")));
 
     TheInputHandler::instance()->initializeJoysticks();
+
+    gameStateMachine_ = new GameStateMachine;
+    gameStateMachine_->changeState(new MenuState);
 
     return true;
 }
@@ -90,21 +102,22 @@ void Game::render()
 {
     SDL_RenderClear(renderer_);
 
-    for (const auto object : gameObjects_)
-        object->draw();
+    gameStateMachine_->render();
 
     SDL_RenderPresent(renderer_);
 }
 
 void Game::update()
 {
-    for (const auto object : gameObjects_)
-        object->update();
+    gameStateMachine_->update();
 }
 
 void Game::handleEvents()
 {
     TheInputHandler::instance()->update();
+
+    if (TheInputHandler::instance()->isKeyDown(SDL_SCANCODE_RETURN))
+        gameStateMachine_->changeState(new PlayState);
 }
 
 void Game::clean()

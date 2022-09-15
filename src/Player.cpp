@@ -47,6 +47,19 @@ void Player::handleInput()
             static_cast<int>(TheInputHandler::MouseButtons::LEFT))
         };
         if (leftBtnPressed)
-            velocity_.x(1);
+        {
+            auto vec{TheInputHandler::instance()->mousePosition()};
+            velocity_ = (*vec - position_) / 100;
+        }
+
+        auto theInstance{TheInputHandler::instance()};
+        if (theInstance->isKeyDown(SDL_SCANCODE_LEFT))
+            velocity_.x(-2);
+        if (theInstance->isKeyDown(SDL_SCANCODE_RIGHT))
+            velocity_.x(2);
+        if (theInstance->isKeyDown(SDL_SCANCODE_UP))
+            velocity_.y(-2);
+        if (theInstance->isKeyDown(SDL_SCANCODE_DOWN))
+            velocity_.y(2);
     }
 }

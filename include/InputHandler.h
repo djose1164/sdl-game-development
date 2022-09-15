@@ -31,6 +31,10 @@ public:
     bool buttonState(int joy, int buttonNumber) const;
 
     bool mouseButtonState(int buttonNumer) const;
+    Vector2D *mousePosition();
+    const Vector2D *mousePosition() const;
+
+    bool isKeyDown(SDL_Scancode key);
 
 private:
     InputHandler();
@@ -46,6 +50,10 @@ private:
     bool joysticksInitialized_;
 
     const int joystickDeadZone_;
+
+    Vector2D *mousePosition_;
+
+    Uint8 *keyStates_;
 };
 typedef InputHandler TheInputHandler;
 

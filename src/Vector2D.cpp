@@ -58,3 +58,28 @@ Vector2D Vector2D::operator*=(const float scalar)
     return *this;
 }
 
+Vector2D Vector2D::operator-(const Vector2D &rhs) const
+{
+    return Vector2D(x() - rhs.x(), y() - rhs.y());
+}
+
+Vector2D Vector2D::operator-=(const Vector2D &rhs)
+{
+    x_ -= rhs.x_;
+    y_ -= rhs.y_;
+
+    return *this;
+}
+
+Vector2D Vector2D::operator/(const float scalar) const
+{
+    return Vector2D(x_ / scalar, y_ / scalar);
+}
+
+Vector2D Vector2D::operator/=(const float scalar)
+{
+    x_ /= scalar;
+    y_ /= scalar;
+
+    return *this;
+}

@@ -38,7 +38,7 @@ bool TextureManager::load(std::string filename, std::string id, SDL_Renderer *re
         return false;
     }
     // Everything went ok!
-    textureMap[id] = texture;
+    textureMap_[id] = texture;
     return true;
 }
 
@@ -57,7 +57,7 @@ void TextureManager::draw(std::string id, int x, int y, int width, int height, S
 
     SDL_RenderCopyEx(
         renderer,
-        textureMap[id],
+        textureMap_[id],
         &srcRec,
         &dstRec,
         .0,
@@ -79,12 +79,15 @@ void TextureManager::drawFrame(std::string id, int x, int y, int width, int heig
 
     SDL_RenderCopyEx(
         renderer,
-        textureMap[id],
+        textureMap_[id],
         &srcRec,
         &dstRec,
         .0,
         nullptr,
-        flip
-    );
+        flip);
 }
-    
+
+void TextureManager::clearFromTextureMap(const std::string &id)
+{
+    textureMap_.erase(id);
+}

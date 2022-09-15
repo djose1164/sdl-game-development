@@ -23,6 +23,12 @@ public:
     Vector2D operator*(const Vector2D &rhs) const;
     Vector2D operator*=(const Vector2D &rhs);
 
+    Vector2D operator-(const Vector2D &rhs) const;
+    Vector2D operator-=(const Vector2D &rhs);
+
+    Vector2D operator/(const float scalar) const;
+    Vector2D operator/=(const float scalar);
+
 private:
     float x_;
     float y_;

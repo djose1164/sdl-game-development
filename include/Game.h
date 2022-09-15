@@ -5,6 +5,7 @@
 #include <vector>
 
 class GameObject;
+class GameStateMachine;
 
 class Game {
 public:
@@ -36,6 +37,8 @@ private:
   bool running_;
 
   std::vector<GameObject *> gameObjects_;
+
+  GameStateMachine *gameStateMachine_;
 };
 typedef Game TheGame;
 
