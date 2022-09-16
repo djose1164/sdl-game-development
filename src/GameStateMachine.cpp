@@ -16,14 +16,14 @@ void GameStateMachine::changeState(GameState *state)
         if (gameStates_.back()->stateId() == state->stateId())
             return;
         if(gameStates_.back()->onExit())
-        {
-            delete gameStates_.back();
             gameStates_.pop_back();
-        }
+        else // Error on exit, keep in the same state.
+            return;
     }
 
     gameStates_.push_back(state);
     gameStates_.back()->onEnter();
+    SDL_Log("State changed");
 }
 
 void GameStateMachine::popState()
@@ -47,4 +47,9 @@ void GameStateMachine::render()
 {
     if (!gameStates_.empty())
         gameStates_.back()->render();
+}
+
+void GameStateMachine::clean()
+{
+    
 }
