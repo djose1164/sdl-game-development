@@ -7,7 +7,7 @@
 CXX = g++
 
 # define any compile-time flags
-CXXFLAGS	:= -Os -std=c++20 -pedantic -Wall -Wextra -g `sdl2-config --libs --cflags` -lSDL2_image
+CXXFLAGS	:= -g -std=c++20 -pedantic -Wall -Wextra -g `sdl2-config --libs --cflags` -lSDL2_image
 
 # define library paths in addition to /usr/lib
 #   if I wanted to include libraries not in /usr/lib I'd specify

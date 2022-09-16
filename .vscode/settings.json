@@ -21,7 +21,8 @@
     "string_view": "cpp",
     "tuple": "cpp",
     "type_traits": "cpp",
-    "typeinfo": "cpp"
+    "typeinfo": "cpp",
+    "vector": "cpp"
   },
   "cSpell.words": ["jaxis", "JOYAXISMOTION"]
 }

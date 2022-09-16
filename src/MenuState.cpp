@@ -4,6 +4,8 @@
 #include "Game.h"
 #include "MenuButton.h"
 #include "LoaderParams.h"
+#include "GameStateMachine.h"
+#include "PlayState.h"
 
 #include <SDL2/SDL.h>
 
@@ -38,10 +40,10 @@ bool MenuState::onEnter()
         return false;
     
     auto button1{
-        new MenuButton(new LoaderParams(100, 100, 400, 100, "playButton"))
+        new MenuButton(new LoaderParams(100, 100, 400, 100, "playButton"), menuToPlay)
     };
     auto button2{
-        new MenuButton(new LoaderParams(100, 300, 400, 100, "exitButton"))
+        new MenuButton(new LoaderParams(100, 300, 400, 100, "exitButton"), exitFromMenu)
     };
 
     gameObjects_.emplace_back(button1);
@@ -67,4 +69,14 @@ bool MenuState::onExit()
 std::string MenuState::stateId() const
 {
     return menuId_;
+}
+
+void MenuState::menuToPlay()
+{
+    TheGame::instance()->gameStateMachine()->changeState(new PlayState);
+}
+
+void MenuState::exitFromMenu()
+{
+    TheGame::instance()->quit();
 }

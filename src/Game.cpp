@@ -69,11 +69,6 @@ bool Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     SDL_SetRenderDrawColor(renderer_, 0, 0, 0, 255);
     running_ = true;
 
-    TextureManager::instance()->load("assets/animate-alpha.png", "animate", renderer_);
-
-    gameObjects_.push_back(new Player(new LoaderParams(300, 300, 128, 82, "animate")));
-    gameObjects_.push_back(new Enemy(new LoaderParams(0, 0, 128, 82, "animate")));
-
     TheInputHandler::instance()->initializeJoysticks();
 
     gameStateMachine_ = new GameStateMachine;
@@ -145,4 +140,14 @@ bool Game::running() const
 SDL_Renderer *Game::renderer() const
 {
     return renderer_;
+}
+
+GameStateMachine *Game::gameStateMachine()
+{
+    return gameStateMachine_;
+}
+
+const GameStateMachine *Game::gameStateMachine() const
+{
+    return gameStateMachine_;
 }

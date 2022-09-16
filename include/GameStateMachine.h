@@ -14,6 +14,7 @@ public:
 
     void update();
     void render();
+    void clean();
 
 private:
     std::vector<GameState *> gameStates_;

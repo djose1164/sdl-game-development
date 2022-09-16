@@ -14,12 +14,15 @@ private:
     };
 
 public:
-    MenuButton(const LoaderParams *params);
+    MenuButton(const LoaderParams *params, void (*callback)());
 
     void update() override;
     void draw() override;
     void clean() override;
 
+private:
+    void (*callback_)();
+    bool released_;
 };
 
 #endif // MENU_BUTTON_H

@@ -19,8 +19,11 @@ public:
     std::string stateId() const override;
 
 private:
-    static const std::string menuId_;
     std::vector<GameObject *> gameObjects_;
+    
+    static const std::string menuId_;
+    static void menuToPlay();
+    static void exitFromMenu();
 };
 
 #endif // MENU_STATE_H
