@@ -28,13 +28,13 @@ void GameStateMachine::changeState(GameState *state)
 
 void GameStateMachine::popState()
 {
+    SDL_assert(gameStates_.size());
     if (gameStates_.empty())
         return;
-    if (gameStates_.back()->onExit())
-    {
-        delete gameStates_.back();
-        gameStates_.pop_back();
-    }
+    gameStates_.back()->onExit();
+    gameStates_.pop_back();
+
+    SDL_Log("Popping state");
 }
 
 void GameStateMachine::update()
