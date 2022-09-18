@@ -8,6 +8,8 @@
 #include "GameStateMachine.h"
 #include "PauseState.h"
 #include "Enemy.h"
+#include "GameOverState.h"
+#include "SDLGameObject.h"
 
 #include <SDL2/SDL.h>
 
@@ -20,6 +22,13 @@ void PlayState::update()
     
     for (auto gameObject : gameObjects_)
         gameObject->update();
+    
+    if (checkCollision(
+            dynamic_cast<SDLGameObject *>(gameObjects_[0]), 
+            dynamic_cast<SDLGameObject *>(gameObjects_[1])
+        )
+    )
+        TheGame::instance()->gameStateMachine()->pushState(new GameOverState);
 }
 
 void PlayState::render()
@@ -61,4 +70,33 @@ bool PlayState::onExit()
 std::string PlayState::stateId() const
 {
     return playId_;
+}
+
+bool PlayState::checkCollision(SDLGameObject *p1, SDLGameObject *p2)
+{
+    int leftA, leftB;
+    int rightA, rightB;
+    int topA, topB;
+    int bottomA, bottomB;
+
+    leftA = p1->position().x();
+    rightA = leftA + p1->width();
+    topA = p1->position().y();
+    bottomA = topA + p1->height();
+
+    leftB = p2->position().x();
+    rightB = leftB + p2->width();
+    topB = p2->position().y();
+    bottomB = topB + p2->height();
+
+    if (bottomA <= topB)
+        return false;
+    if (topA >= bottomB)
+        return false;
+    if (rightA <= leftB)
+        return false;
+    if (leftA >= rightB)
+        return false;
+
+    return true;
 }
