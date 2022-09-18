@@ -6,7 +6,7 @@
 #include <vector>
 
 class GameObject;
-
+class SDLGameObject;
 class PlayState : public GameState
 {
 public:
@@ -17,6 +17,8 @@ public:
     bool onExit() override;
 
     std::string stateId() const override;
+
+    bool checkCollision(SDLGameObject *p1, SDLGameObject *p2);
 
 private:
     static const std::string playId_;
