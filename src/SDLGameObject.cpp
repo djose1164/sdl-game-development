@@ -5,7 +5,7 @@
 
 SDLGameObject::SDLGameObject(const LoaderParams *params)
     : GameObject{}
-    , position_{static_cast<float>(params->x()), static_cast<float>(params->y())}
+    , position_{float(params->x()), float(params->y())}
     , velocity_{.0f, .0f}
     , acceleration_{.0f, .0f}
 {
@@ -21,8 +21,8 @@ void SDLGameObject::draw()
     if (velocity_.x() > 0)
         TextureManager::instance()->drawFrame(
             textureId_,
-            static_cast<float>(position_.x()),
-            static_cast<float>(position_.y()),
+            static_cast<Uint32>(position_.x()),
+            static_cast<Uint32>(position_.y()),
             width_,
             height_,
             currentRow_,
@@ -33,8 +33,8 @@ void SDLGameObject::draw()
     else
         TextureManager::instance()->drawFrame(
             textureId_,
-            static_cast<float>(position_.x()),
-            static_cast<float>(position_.y()),
+            static_cast<Uint32>(position_.x()),
+            static_cast<Uint32>(position_.y()),
             width_,
             height_,
             currentRow_,

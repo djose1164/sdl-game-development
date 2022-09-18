@@ -7,6 +7,7 @@
 #include "InputHandler.h"
 #include "GameStateMachine.h"
 #include "PauseState.h"
+#include "Enemy.h"
 
 #include <SDL2/SDL.h>
 
@@ -37,8 +38,10 @@ bool PlayState::onEnter()
     if (!result)
         return false;
     
-    auto player{new Player(new LoaderParams(100, 100, 128, 55, "helicopter"))};
+    auto player{new Player(new LoaderParams(500, 100, 128, 55, "helicopter"))};
+    auto enemy{new Enemy(new LoaderParams(100, 100, 128, 55, "helicopter"))};
     gameObjects_.push_back(player);
+    gameObjects_.push_back(enemy);
 
     SDL_Log("Entering PlayState");
     return true;
