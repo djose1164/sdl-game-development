@@ -52,3 +52,18 @@ void SDLGameObject::update()
 
 void SDLGameObject::clean()
 {}
+
+const Vector2D &SDLGameObject::position() const
+{
+    return position_;
+}
+
+int SDLGameObject::width() const
+{
+    return width_;
+}
+
+int SDLGameObject::height() const
+{
+    return height_;
+}
