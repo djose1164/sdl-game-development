@@ -8,6 +8,15 @@ LoaderParams::LoaderParams(int x, int y, int width, int height, std::string text
     , textureId_{textureId}
 {}
 
+LoaderParams::LoaderParams(int x, int y, int width, int height, std::string textureId, int numFrame)
+    : x_{x}
+    , y_{y}
+    , width_{width}
+    , height_{height}
+    , textureId_{textureId}
+    , numFrame_{numFrame}
+{}
+
 int LoaderParams::x() const
 {
     return x_;
@@ -29,4 +38,9 @@ int LoaderParams::height() const
 const std::string &LoaderParams::textureId() const
 {
     return textureId_;
+}
+
+int LoaderParams::numFrame() const
+{
+    return numFrame_;
 }
