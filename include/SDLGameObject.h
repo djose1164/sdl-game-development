@@ -15,6 +15,11 @@ public:
     virtual void update() override;
     virtual void clean() override;
 
+    const Vector2D &position() const;
+
+    int width() const;
+    int height() const;
+
 protected:
     int width_;
     int height_;
