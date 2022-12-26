@@ -6,7 +6,8 @@
 #include "LoaderParams.h"
 #include "InputHandler.h"
 #include "GameStateMachine.h"
-#include "MenuState.h"
+#include "MainMenuState.h"
+#include "StateParser.h"
 
 const std::string PauseState::pauseId_{"PAUSE"};
 
@@ -25,28 +26,14 @@ void PauseState::render()
 
 bool PauseState::onEnter()
 {
-    auto texture{TheTextureManager::instance()};
-    auto renderer{TheGame::instance()->renderer()};
+    StateParser stateParser;
+    stateParser.parseState("assets/test.xml", pauseId_, &gameObjects_, &textureIds_);
 
-    if (!texture->load("assets/resume.png", "resumeButton", renderer))
-        return false;
-    if (!texture->load("assets/main.png", "mainButton", renderer))
-        return false;
+    callbacks_.push_back(nullptr);
+    callbacks_.push_back(pauseToMain);
+    callbacks_.push_back(resumePlay);
 
-    auto resumeButton{
-        new MenuButton(
-            new LoaderParams(200, 100, 200, 80, "resumeButton"),
-            resumePlay
-        )
-    };
-    auto mainButton{
-        new MenuButton(
-            new LoaderParams(200, 300, 200, 80, "mainButton"),
-            pauseToMain
-        )
-    };
-    gameObjects_.push_back(resumeButton);
-    gameObjects_.push_back(mainButton);
+    setCallbacks(callbacks_);
 
     SDL_Log("Entering PauseState");
     return true;
@@ -59,8 +46,8 @@ bool PauseState::onExit()
     gameObjects_.clear();
 
     auto texture{TheTextureManager::instance()};
-    texture->clearFromTextureMap("resumeButton");
-    texture->clearFromTextureMap("mainButton");
+    for (auto txt : textureIds_)
+        texture->clearFromTextureMap(static_cast<std::string>(txt));
     TheInputHandler::instance()->reset();
 
     SDL_Log("Exiting PauseState");
@@ -72,6 +59,13 @@ std::string PauseState::stateId() const
     return pauseId_;
 }
 
+void PauseState::setCallbacks(const std::vector<Callback> &callbacks)
+{
+    for (auto gameObject : gameObjects_)
+        if(auto btn = dynamic_cast<MenuButton *>(gameObject))
+            btn->callback(callbacks[btn->callbackId()]);
+}
+
 void PauseState::resumePlay()
 {
     TheGame::instance()->gameStateMachine()->popState();
@@ -80,5 +74,5 @@ void PauseState::resumePlay()
 
 void PauseState::pauseToMain()
 {
-    TheGame::instance()->gameStateMachine()->changeState(new MenuState);
+    TheGame::instance()->gameStateMachine()->changeState(new MainMenuState);
 }

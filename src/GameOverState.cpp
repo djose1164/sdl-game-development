@@ -1,12 +1,13 @@
 #include "GameOverState.h"
 #include "Game.h"
 #include "GameStateMachine.h"
-#include "MenuState.h"
+#include "MainMenuState.h"
 #include "PlayState.h"
 #include "TextureManager.h"
 #include "AnimatedGraphic.h"
 #include "LoaderParams.h"
 #include "MenuButton.h"
+#include "StateParser.h"
 
 const std::string GameOverState::gameOverId_{"GAMEOVER"};
 
@@ -27,7 +28,7 @@ void GameOverState::render()
 
 void GameOverState::gameOverToMain()
 {
-    TheGame::instance()->gameStateMachine()->changeState(new MenuState);
+    TheGame::instance()->gameStateMachine()->changeState(new MainMenuState);
 }
 
 void GameOverState::restartPlay()
@@ -37,35 +38,14 @@ void GameOverState::restartPlay()
 
 bool GameOverState::onEnter()
 {
-    auto texture{TheTextureManager::instance()};
-    const auto renderer{TheGame::instance()->renderer()};
+    StateParser stateParser;
+    stateParser.parseState("assets/test.xml", gameOverId_, &gameObjects_, &textureIds_);
 
-    if (!texture->load("assets/gameover.png", "gameOverText", renderer))
-        return false;
-    if (!texture->load("assets/main.png", "mainButton", renderer))
-        return false;
-    if (!texture->load("assets/restart.png", "restartButton", renderer))
-        return false;
-    
-    auto gameOverText{
-        new AnimatedGraphic(
-            new LoaderParams(200, 100, 190, 30, "gameOverText", 2), 1
-        )
-    };
-    auto mainButton{
-        new MenuButton(
-            new LoaderParams(200, 200, 200, 80, "mainButton"), gameOverToMain
-        )
-    };
-    auto restartButton{
-        new MenuButton(
-            new LoaderParams(200, 300, 200, 80, "restartButton"), restartPlay
-        )
-    };
+    callbacks_.push_back(nullptr);
+    callbacks_.push_back(gameOverToMain);
+    callbacks_.push_back(restartPlay);
 
-    gameObjects_.push_back(gameOverText);
-    gameObjects_.push_back(mainButton);
-    gameObjects_.push_back(restartButton);
+    setCallbacks(callbacks_);
 
     SDL_Log("Entering GameOverState");
     return true;
@@ -77,9 +57,8 @@ bool GameOverState::onExit()
         gameObject->clean();
     gameObjects_.clear();
     
-    TheTextureManager::instance()->clearFromTextureMap("gameOverText");
-    TheTextureManager::instance()->clearFromTextureMap("mainButton");
-    TheTextureManager::instance()->clearFromTextureMap("restartButton");
+    for (auto id : textureIds_)
+        TheTextureManager::instance()->clearFromTextureMap(id);
 
     SDL_Log("Exiting %s", stateId().c_str());
     return true;
@@ -88,4 +67,11 @@ bool GameOverState::onExit()
 std::string GameOverState::stateId() const
 {
     return gameOverId_;
+}
+
+void GameOverState::setCallbacks(const std::vector<Callback> &callbacks)
+{
+    for (auto gameObject : gameObjects_)
+        if (auto btn = dynamic_cast<MenuButton *>(gameObject))
+            btn->callback(callbacks[btn->callbackId()]);
 }

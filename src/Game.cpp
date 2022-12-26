@@ -5,8 +5,13 @@
 #include "LoaderParams.h"
 #include "InputHandler.h"
 #include "GameStateMachine.h"
-#include "MenuState.h"
+#include "MainMenuState.h"
 #include "PlayState.h"
+#include "GameObjectFactory.h"
+#include "MenuButtonCreator.h"
+#include "PlayerCreator.h"
+#include "EnemyCreator.h"
+#include "AnimatedGraphicCreator.h"
 
 #include <SDL2/SDL_image.h>
 
@@ -71,9 +76,17 @@ bool Game::init(const char *title, int xpos, int ypos, int width, int height, bo
 
     TheInputHandler::instance()->initializeJoysticks();
 
-    gameStateMachine_ = new GameStateMachine;
-    gameStateMachine_->changeState(new MenuState);
+    SDL_Log("Registering types...");
+    TheGameObjectFactory::instance()->registerType("MenuButton", new MenuButtonCreator);
+    TheGameObjectFactory::instance()->registerType("Player", new PlayerCreator);
+    TheGameObjectFactory::instance()->registerType("Enemy", new EnemyCreator);
+    TheGameObjectFactory::instance()->registerType("AnimatedGraphic", new AnimatedGraphicCreator);
 
+    gameStateMachine_ = new GameStateMachine;
+    SDL_assert(gameStateMachine_);
+    gameStateMachine_->changeState(new MainMenuState);
+
+    SDL_Log("Game started!");
     return true;
 }
 

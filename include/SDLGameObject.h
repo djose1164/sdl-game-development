@@ -4,16 +4,21 @@
 #include "GameObject.h"
 #include "Vector2D.h"
 
+#include <string>
+
 class LoaderParams;
+class Vector2D;
 
 class SDLGameObject : public GameObject
 {
 public:
-    SDLGameObject(const LoaderParams *params);
+    SDLGameObject();
 
-    virtual void draw() override;
-    virtual void update() override;
-    virtual void clean() override;
+    void draw() override;
+    void update() override;
+    void clean() override;
+
+    void load(const LoaderParams *params) override;
 
     const Vector2D &position() const;
 
@@ -26,6 +31,7 @@ protected:
 
     int currentFrame_;
     int currentRow_;
+    int numFrames_;
 
     Vector2D position_;
     Vector2D velocity_;

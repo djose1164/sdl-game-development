@@ -10,6 +10,7 @@
 #include "Enemy.h"
 #include "GameOverState.h"
 #include "SDLGameObject.h"
+#include "StateParser.h"
 
 #include <SDL2/SDL.h>
 
@@ -39,18 +40,8 @@ void PlayState::render()
 
 bool PlayState::onEnter()
 {
-    auto result{
-        TheTextureManager::instance()->load(
-            "assets/helicopter.png", "helicopter", TheGame::instance()->renderer()
-        )
-    };
-    if (!result)
-        return false;
-    
-    auto player{new Player(new LoaderParams(500, 100, 128, 55, "helicopter"))};
-    auto enemy{new Enemy(new LoaderParams(100, 100, 128, 55, "helicopter"))};
-    gameObjects_.push_back(player);
-    gameObjects_.push_back(enemy);
+    StateParser stateParser;
+    stateParser.parseState("assets/test.xml", playId_, &gameObjects_, &textureIds_);
 
     SDL_Log("Entering PlayState");
     return true;
@@ -61,7 +52,9 @@ bool PlayState::onExit()
     for (auto gameObject : gameObjects_)
         gameObject->clean();
     gameObjects_.clear();
-    TheTextureManager::instance()->clearFromTextureMap("helicopter");
+
+    for (auto id : textureIds_)
+        TheTextureManager::instance()->clearFromTextureMap(id);
 
     SDL_Log("Exiting PlayState");
     return true;

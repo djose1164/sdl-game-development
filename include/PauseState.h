@@ -1,13 +1,13 @@
 #ifndef PAUSE_STATE_H
 #define PAUSE_STATE_H
 
-#include "GameState.h"
+#include "MenuState.h"
 
 #include <vector>
 
 class GameObject;
 
-class PauseState : public GameState
+class PauseState : public MenuState
 {
 public:
     void update() override;
@@ -17,6 +17,8 @@ public:
     bool onExit() override;
 
     std::string stateId() const override;
+
+    void setCallbacks(const std::vector<Callback> &callbacks) override;
 
 private:
     static void pauseToMain();

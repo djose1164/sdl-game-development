@@ -14,14 +14,20 @@ private:
     };
 
 public:
-    MenuButton(const LoaderParams *params, void (*callback)());
+    MenuButton();
 
     void update() override;
     void draw() override;
     void clean() override;
 
+    void load(const LoaderParams *params) override;
+
+    void callback(void (*callback)());
+    int callbackId() const;
+
 private:
     void (*callback_)();
+    int callbackId_;
     bool released_;
 };
 

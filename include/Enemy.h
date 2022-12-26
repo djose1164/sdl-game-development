@@ -6,11 +6,13 @@
 class Enemy : public SDLGameObject
 {
 public:
-    Enemy(const LoaderParams *params);
+    Enemy();
 
-    virtual void draw() override;
-    virtual void update() override;
-    virtual void clean() override;
+    void draw() override;
+    void update() override;
+    void clean() override;
+    
+    void load(const LoaderParams *params) override;
 };
 
 #endif //ENEMY_H

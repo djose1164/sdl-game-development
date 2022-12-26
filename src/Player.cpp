@@ -2,7 +2,7 @@
 #include "InputHandler.h"
 #include "LoaderParams.h"
 
-Player::Player(const LoaderParams *params) : SDLGameObject{params} {}
+Player::Player() : SDLGameObject{} {}
 
 void Player::draw() { SDLGameObject::draw(); }
 
@@ -24,4 +24,9 @@ void Player::handleInput()
     auto target{TheInputHandler::instance()->mousePosition()};
     velocity_ = *target - position_;
     velocity_ /= 50;
+}
+
+void Player::load(const LoaderParams *params)
+{
+    SDLGameObject::load(params);
 }

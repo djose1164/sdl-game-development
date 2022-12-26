@@ -11,6 +11,8 @@ void GameStateMachine::pushState(GameState *state)
 
 void GameStateMachine::changeState(GameState *state)
 {
+    SDL_assert(state);
+    SDL_Log("Changing state");
     if (!gameStates_.empty())
     {
         if (gameStates_.back()->stateId() == state->stateId())

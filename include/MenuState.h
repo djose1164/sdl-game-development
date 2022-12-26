@@ -5,25 +5,17 @@
 
 #include <vector>
 
-class GameObject;
-
 class MenuState : public GameState
 {
 public:
-    void update() override;
-    void render() override;
+    virtual ~MenuState() {}
 
-    bool onEnter() override;
-    bool onExit() override;
+protected:
+    typedef void (*Callback)();
 
-    std::string stateId() const override;
+    virtual void setCallbacks(const std::vector<Callback> &callbacks) = 0;
 
-private:
-    std::vector<GameObject *> gameObjects_;
-    
-    static const std::string menuId_;
-    static void menuToPlay();
-    static void exitFromMenu();
+    std::vector<Callback> callbacks_;
 };
 
 #endif // MENU_STATE_H

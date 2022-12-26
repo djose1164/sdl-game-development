@@ -2,6 +2,11 @@
 
 #include <cmath>
 
+Vector2D::Vector2D()
+    : x_{0}
+    , y_{0}
+{}
+
 Vector2D::Vector2D(float x, float y)
     : x_{x}
     , y_{y}

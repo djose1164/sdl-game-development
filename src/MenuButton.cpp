@@ -1,9 +1,11 @@
 #include "MenuButton.h"
 #include "InputHandler.h"
+#include "LoaderParams.h"
+#include "Game.h"
+#include "TextureManager.h"
 
-MenuButton::MenuButton(const LoaderParams *params, void (*callback)())
-    : SDLGameObject{params}
-    , callback_{callback}
+MenuButton::MenuButton()
+    : SDLGameObject{}
     , released_{true}
 {
     currentFrame_ = static_cast<int>(ButtonState::MOUSE_OUT);
@@ -45,4 +47,21 @@ void MenuButton::update()
 void MenuButton::clean()
 {
     SDLGameObject::clean();
+}
+
+void MenuButton::load(const LoaderParams *params)
+{
+    SDLGameObject::load(params);
+    callbackId_ = params->callbackId();
+    currentFrame_ = int(ButtonState::MOUSE_OUT);
+}
+
+void MenuButton::callback(void (*callback)())
+{
+    callback_ = callback;
+}
+
+int MenuButton::callbackId() const
+{
+    return callbackId_;
 }

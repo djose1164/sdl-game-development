@@ -2,7 +2,7 @@
 #define GAME_STATE_H
 
 #include <string>
-
+#include <vector>
 class GameState
 {
 public:
@@ -15,6 +15,9 @@ public:
     virtual bool onExit() = 0;
 
     virtual std::string stateId() const = 0;
+
+protected:
+    std::vector<std::string_view> textureIds_;
 };
 
 #endif //GAME_STATE_H
