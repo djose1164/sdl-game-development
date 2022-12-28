@@ -7,7 +7,7 @@
 class TileLayer : public Layer
 {
 public:
-    TileLayer(int tileSize, std::vector<Tileset> &tilesets);
+    TileLayer(int tileSize, const std::vector<Tileset> &tilesets);
 
     void update() override;
     void render() override;
@@ -31,4 +31,4 @@ private:
     std::vector<std::vector<int>> tileIds_;
 };
 
-#endif //TILE_LAYER_H
+#endif // TILE_LAYER_H
