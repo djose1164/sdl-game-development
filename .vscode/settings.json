@@ -67,5 +67,5 @@
     "typeindex": "cpp",
     "valarray": "cpp"
   },
-  "cSpell.words": ["jaxis", "JOYAXISMOTION", "tinyxml"]
+  "cSpell.words": ["jaxis", "JOYAXISMOTION", "Tileset", "tilesets", "tinyxml"]
 }
