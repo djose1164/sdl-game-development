@@ -31,6 +31,9 @@ public:
     GameStateMachine *gameStateMachine();
     const GameStateMachine *gameStateMachine() const;
 
+    int gameWidth() const;
+
+    int gameHeight() const;
 private:
     Game();
 
@@ -43,6 +46,9 @@ private:
     std::vector<GameObject *> gameObjects_;
 
     GameStateMachine *gameStateMachine_;
+
+    int width_;
+    int height_;
 };
 typedef Game TheGame;
 

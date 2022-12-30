@@ -51,7 +51,7 @@ bool Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     if (fullscreen)
         flags = SDL_WINDOW_FULLSCREEN;
 
-    window_ = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
+    window_ = SDL_CreateWindow(title, xpos, ypos, width_ = width, height_ = height, flags);
     if (!window_)
     {
         SDL_Log("Failed to create window: %s", SDL_GetError());
@@ -163,4 +163,14 @@ GameStateMachine *Game::gameStateMachine()
 const GameStateMachine *Game::gameStateMachine() const
 {
     return gameStateMachine_;
+}
+
+int Game::gameWidth() const
+{
+    return width_;
+}
+
+int Game::gameHeight() const
+{
+    return height_;
 }
