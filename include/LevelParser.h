@@ -16,6 +16,10 @@ private:
 
     void parseTileLayer(tinyxml2::XMLElement *tileElement, std::vector<Layer *> &layers,
                         const std::vector<Tileset> &tilesets);
+    
+    void parseTextures(tinyxml2::XMLElement *textureRoot);
+
+    void parseObjectLayer(tinyxml2::XMLElement *objectElement, std::vector<Layer *> &layers);
 
     int tileSize_;
     int width_;
