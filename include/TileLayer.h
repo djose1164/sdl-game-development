@@ -16,7 +16,7 @@ public:
 
     void tileSize(int tileSize);
 
-    auto TilesetById(int tileId);
+    Tileset tilesetById(int tileId);
 
 private:
     int numColumns_;

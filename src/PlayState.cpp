@@ -10,7 +10,7 @@
 #include "Enemy.h"
 #include "GameOverState.h"
 #include "SDLGameObject.h"
-#include "StateParser.h"
+#include "LevelParser.h"
 
 #include <SDL2/SDL.h>
 
@@ -24,24 +24,23 @@ void PlayState::update()
     for (auto gameObject : gameObjects_)
         gameObject->update();
     
-    if (checkCollision(
+   /* if (checkCollision(
             dynamic_cast<SDLGameObject *>(gameObjects_[0]), 
             dynamic_cast<SDLGameObject *>(gameObjects_[1])
         )
     )
-        TheGame::instance()->gameStateMachine()->pushState(new GameOverState);
+        TheGame::instance()->gameStateMachine()->pushState(new GameOverState);*/
 }
 
 void PlayState::render()
 {
-    for (auto gameObject : gameObjects_)
-        gameObject->draw();
+    level_->render();
 }
 
 bool PlayState::onEnter()
 {
-    StateParser stateParser;
-    stateParser.parseState("assets/test.xml", playId_, &gameObjects_, &textureIds_);
+    LevelParser levelParser;
+    level_ = levelParser.parseLevel("assets/map1.tmx");
 
     SDL_Log("Entering PlayState");
     return true;
