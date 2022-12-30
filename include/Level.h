@@ -37,14 +37,14 @@ public:
      *
      * @return auto& Reference to the tilesets.
      */
-    auto &tilesets() const;
+    std::vector<Tileset> &tilesets();
 
     /**
      * @brief Return the the layers.
      *
-     * @return auto& Reference to the layers.
+     * @return std::vector<Layer *>& Reference to the layers.
      */
-    auto &layers() const;
+    std::vector<Layer *> &layers();
 
 private:
     friend class LevelParser;

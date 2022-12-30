@@ -1,5 +1,8 @@
 #include "Level.h"
 
+Level::Level()
+{}
+
 void Level::update()
 {
     for (const auto layer: layers_)
@@ -12,12 +15,12 @@ void Level::render()
         layer->render();
 }
 
-auto &Level::tilesets() const
+std::vector<Tileset> &Level::tilesets()
 {
     return tilesets_;
 }
 
-auto &Level::layers() const
+std::vector<Layer *> &Level::layers()
 {
     return layers_;
 }
