@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="60" height="15" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="8">
+ <properties>
+  <property name="boss" value="assets/boss1.png"/>
+  <property name="boss_explosion" value="assets/bossexplosion.png"/>
+  <property name="clouds" value="assets/clouds.png"/>
+  <property name="enemy1" value="assets/enemy1.png"/>
+  <property name="enemy2" value="assets/enemy2.png"/>
+  <property name="enemy3" value="assets/enemy3.png"/>
+  <property name="explosion" value="assets/explosion.png"/>
+  <property name="large_explosion" value="assets/largeexplosion.png"/>
+  <property name="loading" value="assets/loading.png"/>
+  <property name="player" value="assets/helicopter.png"/>
+  <property name="small_explosion" value="assets/smallexplosion.png"/>
+  <property name="turret" value="assets/turret.png"/>
+ </properties>
+ <tileset firstgid="1" source="blocks1.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="60" height="15">
+  <data encoding="base64" compression="zlib">
+   eAHtkekNwyAMRjNFpR4LtUP0TObovUCH6ZXl8vIDKUKFNjimiQTSExhj+7PJMvlakmIFa3kqlQy2PttWKSpIGlvfDq05FB7NG3xbj1/TJdX36zz/1WPf9Wn+bcrdfgJ3Qh7whFcj3HXfeBLl6NLhuo8iKhUZ7AT2KD/AEU5whgtcoe0aEVDjWiG1QmJM/TeH0hgK+7d+59S8fWDh0RISY9Klfs0kutk1/leibIj/6+t3jHMCU5hBbYcgzWHHd2Xb/VXf5UOC
+  </data>
+ </layer>
+ <objectgroup color="#00ff00" id="2" name="Object Layer 1">
+  <object id="1" name="Player1" class="Player" x="32" y="192" width="32" height="32">
+   <properties>
+    <property name="numFrame" type="int" value="5"/>
+    <property name="textureHeight" type="int" value="55"/>
+    <property name="textureId" value="helicopter"/>
+    <property name="textureWidth" type="int" value="128"/>
+   </properties>
+  </object>
+  <object id="5" name="Glider1" class="Glider" x="1505" y="149" width="32" height="32">
+   <properties>
+    <property name="numFrame" type="int" value="1"/>
+    <property name="textureHeight" type="int" value="34"/>
+    <property name="textureId" value="enemy1"/>
+    <property name="textureWidth" type="int" value="38"/>
+   </properties>
+  </object>
+  <object id="4" name="Glider2" class="Glider" x="1632" y="39" width="32" height="32">
+   <properties>
+    <property name="numFrame" type="int" value="1"/>
+    <property name="textureHeight" type="int" value="34"/>
+    <property name="textureId" value="enemy1"/>
+    <property name="textureWidth" type="int" value="38"/>
+   </properties>
+  </object>
+  <object id="3" name="Glider3" class="Glider" x="1571" y="105" width="32" height="32">
+   <properties>
+    <property name="numFrame" type="int" value="1"/>
+    <property name="textureHeight" type="int" value="34"/>
+    <property name="textureId" value="enemy1"/>
+    <property name="textureWidth" type="int" value="38"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="150" height="15" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="50">
+ <properties>
+  <property name="boss" value="assets/boss1.png"/>
+  <property name="bossexplosion" value="assets/bossexplosion.png"/>
+  <property name="clouds" value="assets/clouds.png"/>
+  <property name="enemy1" value="assets/enemy1.png"/>
+  <property name="enemy2" value="assets/enemy2.png"/>
+  <property name="enemy3" value="assets/enemy3.png"/>
+  <property name="explosion" value="assets/explosion.png"/>
+  <property name="largeexplosion" value="assets/largeexplosion.png"/>
+  <property name="loading" value="assets/loading.png"/>
+  <property name="player" value="assets/heli.png"/>
+  <property name="smallexplosion" value="assets/smallexplosion.png"/>
+  <property name="turret" value="assets/turret.png"/>
+ </properties>
+ <tileset firstgid="1" source="blocks1.tsx"/>
+ <tileset firstgid="199" source="blocks2.tsx"/>
+ <objectgroup id="1" name="Object Layer 2">
+  <object id="1" name="Background" class="ScrollingBackground" x="0" y="0" width="32" height="32">
+   <properties>
+    <property name="animSpeed" value="0.2"/>
+    <property name="numFrames" value="1"/>
+    <property name="textureHeight" value="480"/>
+    <property name="textureID" value="clouds"/>
+    <property name="textureWidth" value="640"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <layer id="2" name="Collision" width="150" height="15">
+  <properties>
+   <property name="collidable" value=""/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJzt2NEJgzAQgOFzjMbuU1doV7ArtEu0dYFi5/QKfQiCNUJicuH/4IhnkMR4hKBIXfpG5NrkG3/U+Pzavbw0Bo3HQv/3/vNPP9blrivUiboCAAAAynfSM3vHuR2RnbWmLtQVIuM/A1K4aU3dqSszrOwDOeZpZW1KZGUfyDFPK2tTolhr9/ZCvHbrc0tif+OQcVPWVeh7l+ag4TTa2fVxlruVfnJyP58AWs0rUg==
+  </data>
+ </layer>
+ 
+</map>

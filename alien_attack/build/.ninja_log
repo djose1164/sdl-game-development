@@ -1,0 +1,27 @@
+# ninja log v5
+6489	7945	1672501372015782228	CMakeFiles/AlienAttack.dir/src/LoaderParams.cpp.o	444b8bbbd38f1540
+12	6586	1672501370659098212	CMakeFiles/AlienAttack.dir/src/GameObjectFactory.cpp.o	1394dd62edbea0a2
+3	4311	1672501368385737556	CMakeFiles/AlienAttack.dir/src/Enemy.cpp.o	d806cab10315bfa
+13308	18680	1672501382752614306	CMakeFiles/AlienAttack.dir/src/StateParser.cpp.o	98527a63253e9608
+18	7294	1672501371365773840	CMakeFiles/AlienAttack.dir/src/GameOverState.cpp.o	fb8c839fa2963ca3
+13677	18822	1672501382895950151	CMakeFiles/AlienAttack.dir/src/TextureManager.cpp.o	40cd94ea3c396789
+2556	8028	1672501372102450051	CMakeFiles/AlienAttack.dir/src/GameStateMachine.cpp.o	9544553446208ce0
+3	3643	1672501367715729938	CMakeFiles/AlienAttack.dir/src/AnimatedGraphic.cpp.o	830c8284c24ecb6f
+2	3004	1672501229450598107	CMakeFiles/AlienAttack.dir/src/main.cpp.o	fe4193d618ef0d30
+4	2556	1672501366629051365	CMakeFiles/AlienAttack.dir/src/GameObject.cpp.o	c47a52c4532cb582
+2	105	1672501517634303120	build.ninja	62ff8dfb2b5eedb1
+3643	8668	1672501372739125207	CMakeFiles/AlienAttack.dir/src/InputHandler.cpp.o	9205c692c3db0d4d
+16599	17812	1672501381882599112	CMakeFiles/AlienAttack.dir/src/base64.cpp.o	11c15fe1365df6be
+14156	19034	1672501383105953871	CMakeFiles/AlienAttack.dir/src/TileLayer.cpp.o	5a631574c5b26da1
+13072	18385	1672501382459275833	CMakeFiles/AlienAttack.dir/src/SoundManager.cpp.o	ee076b9946755dfd
+10724	15423	1672501379495892415	CMakeFiles/AlienAttack.dir/src/Player.cpp.o	b5734e376e726b56
+6587	13308	1672501377372525410	CMakeFiles/AlienAttack.dir/src/MainMenuState.cpp.o	203d2058137ed673
+15424	16599	1672501380669245146	CMakeFiles/AlienAttack.dir/src/Vector2D.cpp.o	be453a1d171aa5e
+8668	14156	1672501378229205423	CMakeFiles/AlienAttack.dir/src/PlayState.cpp.o	18cadb8ece8a0ff9
+3	6488	1672501370562430341	CMakeFiles/AlienAttack.dir/src/Game.cpp.o	527f79b5c9b5d1f6
+4311	5172	1672501369245747610	CMakeFiles/AlienAttack.dir/src/Level.cpp.o	b47019c8cc8c1c5b
+12829	17894	1672501381969267262	CMakeFiles/AlienAttack.dir/src/SDLGameObject.cpp.o	cb69e5074050559f
+7945	13677	1672501377749197904	CMakeFiles/AlienAttack.dir/src/ObjectLayer.cpp.o	516286988fb48c6a
+8028	13072	1672501377145855238	CMakeFiles/AlienAttack.dir/src/PauseState.cpp.o	3488b72c62e47047
+5172	12829	1672501376892518032	CMakeFiles/AlienAttack.dir/src/LevelParser.cpp.o	aafaa85af60faf50
+7294	10724	1672501374789153653	CMakeFiles/AlienAttack.dir/src/MenuButton.cpp.o	ed21a300bce4855b
